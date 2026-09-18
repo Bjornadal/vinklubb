@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { clubInfo } from '../data/clubInfo';
 
 export const FAQSection: React.FC = () => {
@@ -10,48 +10,47 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-24 relative bg-velvet-950/80">
+    <section id="faq" className="py-24 relative editorial-border-t bg-velvet-950/90">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-400/20 bg-wine-950/70 text-gold-300 text-xs font-semibold uppercase tracking-widest mb-3">
-            <HelpCircle className="w-3 h-3 text-gold-400" />
-            <span>Ofte Stilte Spørsmål</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-3">
-            Alt du lurer på om <span className="gold-gradient-text italic font-serif">66° Cuvée</span>
+        <div className="text-center mb-14">
+          <span className="text-[10px] font-editorial uppercase tracking-[0.35em] text-brass-400 block mb-1">
+            Praktiske Spørsmål
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-display uppercase tracking-tight text-white mb-2">
+            Salongens Kjøreregler
           </h2>
-          <p className="text-neutral-300 text-sm font-light">
-            Finner du ikke svaret her? Caroline svarer gjerne på dine spørsmål direkte.
+          <p className="font-serif italic text-neutral-400 text-sm">
+            Har du spørsmål før din første samling? Her er det viktigste du trenger å vite.
           </p>
         </div>
 
         {/* Accordion */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {clubInfo.faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
               <div
                 key={index}
-                className="glass-card rounded-2xl border border-gold-500/20 overflow-hidden transition-colors"
+                className="border-b border-brass-500/20 py-4 transition-colors"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 text-white hover:text-gold-200 transition-colors"
+                  className="w-full text-left flex items-center justify-between gap-4 text-white hover:text-brass-300 transition-colors group"
                 >
-                  <span className="font-serif text-lg font-bold">
-                    {faq.question}
+                  <span className="font-display text-lg sm:text-xl uppercase tracking-wide">
+                    0{index + 1}. {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 text-gold-400 shrink-0 transition-transform duration-300 ${
-                      isOpen ? 'rotate-180' : ''
+                    className={`w-4 h-4 text-brass-400 shrink-0 transition-transform duration-300 ${
+                      isOpen ? 'rotate-180 text-white' : ''
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-sm text-neutral-300 font-light leading-relaxed border-t border-white/5 animate-fade-in">
+                  <div className="pt-3 pb-2 text-sm text-neutral-300 font-serif leading-relaxed font-light animate-fade-in">
                     {faq.answer}
                   </div>
                 )}

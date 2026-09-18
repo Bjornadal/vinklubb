@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wine, Compass, ChevronDown, Sparkles, Calendar, Award } from 'lucide-react';
+import { ArrowDownRight } from 'lucide-react';
 import { clubInfo } from '../data/clubInfo';
 
 interface HeroProps {
@@ -8,122 +8,149 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenApplyModal }) => {
   return (
-    <section className="relative min-h-[96vh] flex items-center justify-center pt-28 pb-20 overflow-hidden">
-      {/* Background Image with Cinematic Overlays */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="./images/hero-bg.jpg"
-          alt="Atmospheric wine cellar tasting"
-          className="w-full h-full object-cover object-center scale-105 animate-fade-in"
-        />
-        {/* Multilayer gradient overlays for luxury contrast and depth */}
-        <div className="absolute inset-0 bg-gradient-to-t from-velvet-950 via-velvet-950/80 to-velvet-950/60" />
-        <div className="absolute inset-0 bg-gradient-to-r from-wine-950/90 via-transparent to-wine-950/90" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(215,176,90,0.06)_0%,transparent_70%)]" />
-      </div>
+    <section className="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden grain-overlay">
+      {/* Ambient background glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[60rem] h-[35rem] bg-wine-900/20 rounded-full filter blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-12 left-10 w-96 h-96 bg-brass-500/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
 
-      {/* Hero Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         
-        {/* Polar Latitude Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-gold-400/30 bg-wine-950/80 backdrop-blur-md text-gold-300 text-xs font-semibold tracking-widest uppercase mb-6 shadow-lg shadow-wine-950/80">
-          <Compass className="w-3.5 h-3.5 text-gold-400 animate-spin-slow" />
-          <span>{clubInfo.latitude} • {clubInfo.location}</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-gold-400" />
-          <span className="text-neutral-300">Leder: {clubInfo.leader.name}</span>
-        </div>
-
-        {/* Crest Emblem Showcase */}
-        <div className="mb-6 relative group">
-          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 border-2 border-gold-400/50 bg-gradient-to-b from-wine-900 to-velvet-950 shadow-2xl shadow-gold-500/10 group-hover:border-gold-300 transition-all duration-500">
-            <img
-              src="./images/logo-crest.jpg"
-              alt="66° Cuvée Emblem"
-              className="w-full h-full object-cover rounded-full"
-            />
+        {/* Top Editorial Eyebrow */}
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 editorial-border-b text-neutral-400 text-xs">
+          <div className="flex items-center gap-3">
+            <span className="font-editorial uppercase tracking-widest text-brass-400 text-[11px]">
+              {clubInfo.latitude} • Mo i Rana
+            </span>
+            <span className="text-white/20">|</span>
+            <span className="font-serif italic text-neutral-300">
+              Helgelands private vinforening
+            </span>
           </div>
-          <div className="absolute -inset-1 rounded-full bg-gold-400/10 filter blur-md -z-10 group-hover:bg-gold-400/25 transition-all duration-500" />
-        </div>
 
-        {/* Main Title */}
-        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-4">
-          <span className="gold-gradient-text block mb-1 drop-shadow-md">66° CUVÉE</span>
-          <span className="text-2xl sm:text-4xl md:text-5xl font-serif font-light italic text-gold-100/90 font-normal">
-            {clubInfo.tagline}
-          </span>
-        </h1>
-
-        {/* Subtitle */}
-        <p className="max-w-2xl text-neutral-300 text-base sm:text-lg md:text-xl font-light leading-relaxed mb-8">
-          En nyoppstartet, raffinert vinklubb i Mo i Rana for nysgjerrige ganer, samlere og livsnytere. 
-          Ledet med lidenskap og fagkunnskap av <span className="text-gold-200 font-medium">Caroline Skovholt</span>.
-        </p>
-
-        {/* Live Upcoming Event Teaser Pill */}
-        <div className="mb-10 px-5 py-2.5 rounded-2xl glass-card inline-flex items-center gap-3 text-xs sm:text-sm text-neutral-200">
-          <div className="flex items-center gap-1.5 text-gold-400 font-medium">
-            <Calendar className="w-4 h-4" />
-            <span>Neste samling:</span>
+          <div className="flex items-center gap-2 text-[11px] font-editorial uppercase tracking-widest text-neutral-400">
+            <span>Grunnlagt av</span>
+            <span className="text-brass-300 border-b border-brass-400/40 pb-0.5 font-medium">
+              Caroline Skovholt
+            </span>
           </div>
-          <span className="text-white font-serif tracking-wide">Champagne i Mørketida (24. okt)</span>
-          <span className="hidden sm:inline text-xs text-wine-300 bg-wine-900/60 px-2 py-0.5 rounded-full border border-wine-500/30">
-            4 plasser igjen
-          </span>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-          <button
-            onClick={onOpenApplyModal}
-            className="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-semibold tracking-wider uppercase text-neutral-950 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 hover:from-gold-200 hover:to-gold-400 transition-all duration-300 shadow-xl shadow-gold-950/50 hover:shadow-gold-500/30 flex items-center justify-center gap-2.5 hover:scale-[1.03]"
-          >
-            <Wine className="w-4 h-4" />
-            <span>Bli Medlem / Meld Interesse</span>
-            <Sparkles className="w-4 h-4 text-wine-900" />
-          </button>
+        {/* Asymmetrical Editorial Composition */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+          
+          {/* Left: Typographic Drama */}
+          <div className="lg:col-span-7 space-y-6">
+            
+            <div className="space-y-1">
+              <span className="text-xs font-editorial uppercase tracking-[0.4em] text-brass-400/90 block">
+                Privat Salong & Vinklubb
+              </span>
+              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display uppercase tracking-tight text-white leading-[0.9]">
+                66° Cuvée<span className="text-brass-400 font-serif">.</span>
+              </h1>
+            </div>
 
-          <a
-            href="#smakinger"
-            className="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-semibold tracking-wider uppercase text-gold-200 border border-gold-400/40 bg-wine-950/60 hover:bg-wine-900/40 hover:border-gold-300 transition-all duration-300 backdrop-blur-md flex items-center justify-center gap-2"
-          >
-            <Calendar className="w-4 h-4 text-gold-400" />
-            <span>Se Høstens Smakinger</span>
-          </a>
+            <p className="font-serif text-2xl sm:text-3xl text-brass-100 font-light italic leading-snug max-w-xl">
+              "Hvor den arktiske vinterens mørke møter Europas mest tidløse vinkjellere."
+            </p>
 
-          <a
-            href="#vinstil-test"
-            className="w-full sm:w-auto px-6 py-4 rounded-full text-xs font-semibold tracking-wider uppercase text-neutral-400 hover:text-white border border-white/10 hover:border-white/30 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <Award className="w-3.5 h-3.5 text-gold-400" />
-            <span>Ta Vinstil-testen</span>
-          </a>
-        </div>
+            <p className="text-neutral-300 font-serif text-base sm:text-lg font-light leading-relaxed max-w-xl pt-2">
+              Når snøen legger seg over Ranfjorden og mørketida hersker på 66 grader nord, samles vi 
+              rundt kandelabrene. 66° Cuvée er en kompromissløs salong for vinglede, 
+              kunnskapsdeling og sjeldne årganger i Mo i Rana – ledet av Caroline Skovholt.
+            </p>
 
-        {/* Quick Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-16 w-full max-w-4xl border-t border-gold-500/20 pt-10">
-          {clubInfo.stats.map((stat) => (
-            <div key={stat.label} className="text-center p-3 rounded-xl bg-velvet-900/40 border border-gold-500/10">
-              <div className="font-serif text-2xl sm:text-3xl font-bold gold-gradient-text">
-                {stat.value}
+            {/* Editorial Action Row */}
+            <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              <button
+                onClick={onOpenApplyModal}
+                className="px-8 py-4 bg-brass-400 text-neutral-950 font-editorial text-xs tracking-widest uppercase hover:bg-brass-300 transition-all duration-300 flex items-center gap-3 shadow-lg group"
+              >
+                <span>Søk om et sete ved bordet</span>
+                <ArrowDownRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
+              </button>
+
+              <a
+                href="#arrangementer"
+                className="text-xs font-editorial tracking-[0.2em] uppercase text-neutral-300 hover:text-brass-300 transition-colors py-3 border-b border-brass-500/30 hover:border-brass-400 inline-flex items-center gap-2"
+              >
+                <span>Utforsk Tasting-Ledgeren</span>
+                <span className="text-brass-400">↓</span>
+              </a>
+            </div>
+
+            {/* Discrete Micro Notations */}
+            <div className="pt-6 grid grid-cols-3 gap-6 max-w-md border-t border-white/10 text-xs">
+              <div>
+                <span className="block font-editorial text-white text-base">35</span>
+                <span className="text-[10px] font-serif italic text-neutral-400">faste seter i salongen</span>
               </div>
-              <div className="text-xs uppercase tracking-wider text-gold-200/80 font-medium mt-0.5">
-                {stat.label}
+              <div>
+                <span className="block font-editorial text-white text-base">8–10</span>
+                <span className="text-[10px] font-serif italic text-neutral-400">årlige bordsettinger</span>
               </div>
-              <div className="text-[11px] text-neutral-400 mt-1">
-                {stat.detail}
+              <div>
+                <span className="block font-editorial text-white text-base">100%</span>
+                <span className="text-[10px] font-serif italic text-neutral-400">terroir & historie</span>
               </div>
             </div>
-          ))}
+
+          </div>
+
+          {/* Right: Curated Visual Assemblage (Framed Art Direction) */}
+          <div className="lg:col-span-5 relative">
+            <div className="relative salon-card p-4 sm:p-6 editorial-border">
+              
+              {/* Image Frame with Editorial Matte */}
+              <div className="relative overflow-hidden aspect-[4/5] bg-velvet-950">
+                <img
+                  src="./images/hero-bg.jpg"
+                  alt="Stemningsfull vinsmaking i Mo i Rana"
+                  className="w-full h-full object-cover object-center filter brightness-90 hover:scale-105 transition-transform duration-1000"
+                />
+                
+                {/* Embedded Crest Inscription */}
+                <div className="absolute top-4 left-4 w-16 h-16 rounded-full overflow-hidden border border-brass-400/60 shadow-2xl p-0.5 bg-velvet-950/80 backdrop-blur-sm">
+                  <img src="./images/logo-crest.jpg" alt="66° Cuvée Monogram" className="w-full h-full object-cover rounded-full" />
+                </div>
+
+                {/* Subtle Coordinate Stamp */}
+                <div className="absolute bottom-4 right-4 text-[10px] font-editorial tracking-widest text-brass-200/90 uppercase px-2.5 py-1 bg-velvet-950/85 backdrop-blur-sm border border-brass-500/30">
+                  Ranfjorden • Lat. 66° 18′ N
+                </div>
+              </div>
+
+              {/* Brass Cartouche / Current Tasting Notice */}
+              <div className="mt-4 pt-4 border-t border-brass-500/20 flex items-center justify-between">
+                <div>
+                  <span className="text-[9px] font-editorial uppercase tracking-widest text-brass-400 block mb-0.5">
+                    Neste Bordsetting
+                  </span>
+                  <p className="font-serif text-white text-sm font-semibold">
+                    Champagne i Mørketida • 24. Oktober
+                  </p>
+                  <p className="text-[11px] font-serif italic text-neutral-400">
+                    Privat vinstue, Mo i Rana • 4 ledige plasser
+                  </p>
+                </div>
+                
+                <a
+                  href="#arrangementer"
+                  className="text-brass-300 hover:text-white p-2 border border-brass-500/30 hover:border-brass-400 transition-colors"
+                  aria-label="Se arrangement"
+                >
+                  <ArrowDownRight className="w-4 h-4" />
+                </a>
+              </div>
+
+            </div>
+
+            {/* Subtle background offset border */}
+            <div className="absolute -bottom-3 -right-3 w-full h-full border border-brass-500/15 -z-10 hidden sm:block pointer-events-none" />
+          </div>
+
         </div>
 
-        {/* Scroll Indicator */}
-        <a
-          href="#om-klubben"
-          aria-label="Rull ned"
-          className="mt-12 text-gold-400/60 hover:text-gold-300 transition-colors animate-bounce"
-        >
-          <ChevronDown className="w-6 h-6" />
-        </a>
       </div>
     </section>
   );

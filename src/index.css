@@ -6,63 +6,92 @@
   color-scheme: dark;
 }
 
-/* Custom scrollbar */
+/* Custom editorial scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0c0c0f;
+  background: #0a080c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3a1523;
-  border-radius: 4px;
+  background: #2a1018;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6a1a36;
+  background: #581428;
 }
 
-/* Luxury gold text gradients */
-.gold-gradient-text {
-  background: linear-gradient(135deg, #f8f2df 0%, #dfbf76 50%, #c59b38 100%);
+/* Editorial typography & accents */
+.editorial-title {
+  font-family: 'Italiana', 'Cormorant Garamond', serif;
+  letter-spacing: -0.01em;
+}
+
+.editorial-roman {
+  font-family: 'Marcellus', 'Cormorant Garamond', serif;
+  letter-spacing: 0.2em;
+}
+
+.brass-gradient-text {
+  background: linear-gradient(135deg, #faf6eb 0%, #d8b776 50%, #c5a059 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.gold-gradient-subtle {
-  background: linear-gradient(135deg, #fdfbf4 0%, #eedcae 60%, #a77a29 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.wine-glow-bg {
+  background: radial-gradient(circle at 50% 20%, rgba(88, 20, 40, 0.22) 0%, rgba(10, 8, 12, 0.98) 70%);
 }
 
-.wine-gradient-bg {
-  background: radial-gradient(circle at 50% 0%, rgba(130, 28, 55, 0.25) 0%, rgba(12, 12, 15, 0.95) 75%);
+/* Bespoke editorial border lines */
+.editorial-border {
+  border: 1px solid rgba(197, 160, 89, 0.18);
 }
 
-.gold-border-glow {
-  box-shadow: 0 0 25px -5px rgba(215, 176, 90, 0.15);
+.editorial-border-b {
+  border-bottom: 1px solid rgba(197, 160, 89, 0.16);
 }
 
-.glass-card {
-  background: rgba(22, 14, 20, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(215, 176, 90, 0.18);
+.editorial-border-t {
+  border-top: 1px solid rgba(197, 160, 89, 0.16);
 }
 
-.glass-card-hover {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(197, 160, 89, 0.35) 50%, transparent 100%);
 }
 
-.glass-card-hover:hover {
-  transform: translateY(-4px);
-  border-color: rgba(215, 176, 90, 0.4);
-  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.6), 0 0 20px -3px rgba(184, 41, 80, 0.25);
+/* Subtle editorial paper card */
+.salon-card {
+  background: linear-gradient(180deg, rgba(22, 14, 19, 0.85) 0%, rgba(14, 10, 13, 0.92) 100%);
+  border: 1px solid rgba(197, 160, 89, 0.16);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
 }
 
-/* Atmospheric vignette */
-.vignette-overlay {
-  box-shadow: inset 0 0 120px rgba(12, 12, 15, 0.85);
+.salon-card-interactive {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.salon-card-interactive:hover {
+  border-color: rgba(216, 183, 118, 0.38);
+  transform: translateY(-2px);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.85), 0 0 30px -5px rgba(88, 20, 40, 0.2);
+}
+
+/* Editorial Drop Cap */
+.drop-cap::first-letter {
+  font-family: 'Italiana', 'Cormorant Garamond', serif;
+  font-size: 3.4em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.18em;
+  margin-top: 0.08em;
+  color: #d8b776;
+}
+
+/* Tactile subtle noise */
+.grain-overlay {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0);
+  background-size: 24px 24px;
 }

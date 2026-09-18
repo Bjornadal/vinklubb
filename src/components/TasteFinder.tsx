@@ -1,220 +1,207 @@
 import React, { useState } from 'react';
-import { Sparkles, Wine, RotateCcw } from 'lucide-react';
-import confetti from 'canvas-confetti';
-import { quizQuestions, wineRecommendations, WineRecommendation } from '../data/wineQuiz';
+import { ArrowRight } from 'lucide-react';
+
+interface SensoryElement {
+  id: string;
+  name: string;
+  subtitle: string;
+  element: string;
+  idealFor: string;
+  wineTitle: string;
+  region: string;
+  curatorNote: string;
+  pairing: string;
+  bottle: string;
+}
+
+const sensoryElements: SensoryElement[] = [
+  {
+    id: 'frost',
+    name: 'Nordisk Frost & Kystluft',
+    element: 'Vann & Stein',
+    subtitle: 'Når vintervinden feier inn Ranfjorden og ganen søker ren, mineralsk elektrisitet.',
+    idealFor: 'Sjømat, rå kamskjell fra kysten, ferske reker og renset gane.',
+    wineTitle: 'Tørr Tysk Riesling fra Bratte Skiferskråninger',
+    region: 'Mosel / Rheinhessen, Tyskland',
+    curatorNote: '«Det finnes ikke noe mer forfriskende enn en knivskarp tørr Riesling når frosten biter ute. Syren skjærer gjennom fettet i sjømaten og etterlater en ren smak av knust stein og sitruszest.»',
+    pairing: 'Pannestekt piggvar med brunet smør, eller ferske østers.',
+    bottle: 'Weingut Keller «Von der Fels» eller Egon Müller Scharzhof'
+  },
+  {
+    id: 'peis',
+    name: 'Peisild & Mørk Vinterkveld',
+    element: 'Ild & Tre',
+    subtitle: 'Knitrende bjørkeved, dype lenestoler og et glass med sjel og faste tanniner.',
+    idealFor: 'Langtidskokte gryter, viltkjøtt, lær, tobakk og tålmodighet.',
+    wineTitle: 'Klassisk Barolo DOCG – «Kongenes Vin»',
+    region: 'Piemonte, Nord-Italia',
+    curatorNote: '«Nebbiolo på 66 grader nord gir deg varmen du lengter etter. Den krever to timer på karaffel før tjære, roser og trøffel stiger opp av krystallet. En vin som krever en skikkelig middag.»',
+    pairing: 'Braisert oksehøyrygg, sopprisotto med parmesan og trøffelsmør.',
+    bottle: 'Vietti Barolo Castiglione eller G.D. Vajra Bricco delle Viole'
+  },
+  {
+    id: 'fest',
+    name: 'Gylne Bobler & Kandelabre',
+    element: 'Luft & Krystall',
+    subtitle: 'Feiring, høye stettglass og den uforlignelige lyden av en sprettet champagnekork.',
+    idealFor: 'Aperitiff som glir over i natten, sprudlende samtaler og luksus.',
+    wineTitle: 'Prestige Blanc de Blancs Grand Cru Champagne',
+    region: 'Côte des Blancs, Champagne, Frankrike',
+    curatorNote: '«Ekte champagne er ikke forbeholdt nyttårsaften – det er kanskje verdens mest komplekse matvin. Samspillet mellom ristet brioche, krittmineralitet og silkeaktig mousse løfter enhver kveld i Rana.»',
+    pairing: 'Nystekte blinis med Rørosrømme og løyrom, modnet Comté.',
+    bottle: 'Pierre Péters Cuvée de Réserve eller Dom Pérignon Vintage'
+  },
+  {
+    id: 'ro',
+    name: 'Kjellerro & Terroir-dykk',
+    element: 'Jord & Finesse',
+    subtitle: 'Når du søker ren eleganse, florale nyanser og en ettersmak som aldri tar slutt.',
+    idealFor: 'Dype samtaler, klassisk musikk og vinverdens mest myteomspunne drue.',
+    wineTitle: 'Côte de Nuits Grand Vin – Pinot Noir',
+    region: 'Bourgogne, Frankrike',
+    curatorNote: '«Bourgogne er vinverdens mest vanedannende labyrint. Lys i glasset, men med en dybde av skogbunn, markjordbær og mineraler som trollbinder deg fra første munnfull.»',
+    pairing: 'Andebryst med kirsebærglaze, eller pannestekt reinsdyrfilet.',
+    bottle: 'Domaine Dujac Morey-Saint-Denis eller Domaine Séraphin'
+  }
+];
 
 interface TasteFinderProps {
   onOpenApplyModal: () => void;
 }
 
 export const TasteFinder: React.FC<TasteFinderProps> = ({ onOpenApplyModal }) => {
-  const [currentStep, setCurrentStep] = useState<number>(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
-  const [recommendation, setRecommendation] = useState<WineRecommendation | null>(null);
-
-  const handleSelectOption = (tag: string) => {
-    const updatedAnswers = [...selectedAnswers, tag];
-    setSelectedAnswers(updatedAnswers);
-
-    if (currentStep + 1 < quizQuestions.length) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // Calculate outcome: pick the dominant tag or latest
-      const tagCounts: Record<string, number> = {};
-      updatedAnswers.forEach((t) => {
-        tagCounts[t] = (tagCounts[t] || 0) + 1;
-      });
-
-      let topTag = 'bourgogne';
-      let maxCount = 0;
-      Object.entries(tagCounts).forEach(([tag, count]) => {
-        if (count > maxCount) {
-          maxCount = count;
-          topTag = tag;
-        }
-      });
-
-      const matchedRec = wineRecommendations[topTag] || wineRecommendations['bourgogne'];
-      setRecommendation(matchedRec);
-
-      // Subtle celebration confetti
-      try {
-        confetti({
-          particleCount: 40,
-          spread: 60,
-          origin: { y: 0.7 },
-          colors: ['#dfbf76', '#a32a53', '#eedcae']
-        });
-      } catch (err) {
-        // Ignore confetti if unsupported
-      }
-    }
-  };
-
-  const handleReset = () => {
-    setCurrentStep(0);
-    setSelectedAnswers([]);
-    setRecommendation(null);
-  };
-
-  const currentQ = quizQuestions[currentStep];
+  const [selectedElementId, setSelectedElementId] = useState<string>('peis');
+  const current = sensoryElements.find((e) => e.id === selectedElementId) || sensoryElements[0];
 
   return (
-    <section id="vinstil-test" className="py-24 relative bg-wine-950/40 border-y border-gold-500/15">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="vin-kompass" className="py-28 relative editorial-border-t bg-velvet-950">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-400/20 bg-wine-950/70 text-gold-300 text-xs font-semibold uppercase tracking-widest mb-3">
-            <Sparkles className="w-3 h-3 text-gold-400" />
-            <span>Interaktiv Sommelier-guide</span>
+        {/* Chapter Header */}
+        <div className="mb-16 editorial-border-b pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span className="text-[10px] font-editorial uppercase tracking-[0.35em] text-brass-400 block mb-1">
+              Kapittel IV — Sanselig Navigasjon
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-display uppercase tracking-tight text-white">
+              Det Arktiske Vin-Kompasset
+            </h2>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-3">
-            Finn din personlige <span className="gold-gradient-text italic font-serif">vinstil</span>
-          </h2>
-          <p className="text-neutral-300 text-sm sm:text-base font-light">
-            Svar på tre enkle spørsmål om dine sanser, så gir Caroline deg en skreddersydd anbefaling 
-            og matmatch for din neste kveld i glasset.
+          <p className="font-serif italic text-brass-200 text-sm sm:text-base max-w-sm">
+            Velg stemningen og elementet som tiltaler deg mest i kveld, og la Caroline anbefale din ideelle dråpe.
           </p>
         </div>
 
-        {/* Quiz Container Card */}
-        <div className="glass-card rounded-3xl p-6 sm:p-10 border border-gold-500/25 relative overflow-hidden shadow-2xl">
-          
-          {!recommendation ? (
-            <div>
-              {/* Progress Indicator */}
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
-                <span className="text-xs uppercase tracking-wider text-gold-400 font-semibold">
-                  Spørsmål {currentStep + 1} av {quizQuestions.length}
+        {/* Compass Dial: 4 Elemental Pillars */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+          {sensoryElements.map((item) => {
+            const isActive = item.id === selectedElementId;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setSelectedElementId(item.id)}
+                className={`p-5 text-left transition-all duration-500 editorial-border flex flex-col justify-between ${
+                  isActive
+                    ? 'bg-wine-900/50 border-brass-400 shadow-xl'
+                    : 'bg-velvet-900/40 border-white/10 hover:border-brass-500/30'
+                }`}
+              >
+                <div>
+                  <span className="text-[9px] font-editorial uppercase tracking-widest text-brass-400 block mb-1">
+                    {item.element}
+                  </span>
+                  <h3 className={`font-display text-lg sm:text-xl uppercase tracking-wide mb-1 ${
+                    isActive ? 'text-white' : 'text-neutral-300'
+                  }`}>
+                    {item.name}
+                  </h3>
+                </div>
+                <span className="text-[10px] font-serif italic text-neutral-400 mt-4 block">
+                  {isActive ? '● Valgt stemning' : '○ Klikk for å utforske'}
                 </span>
-                <div className="flex gap-1.5">
-                  {quizQuestions.map((_, idx) => (
-                    <span
-                      key={idx}
-                      className={`w-6 h-1 rounded-full transition-all duration-300 ${
-                        idx === currentStep
-                          ? 'bg-gold-400 w-10'
-                          : idx < currentStep
-                          ? 'bg-wine-500'
-                          : 'bg-neutral-700'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
+              </button>
+            );
+          })}
+        </div>
 
-              {/* Question */}
-              <div className="mb-8">
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">
-                  {currentQ.question}
-                </h3>
-                <p className="text-sm text-neutral-400 font-light">
-                  {currentQ.description}
-                </p>
-              </div>
-
-              {/* Options */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {currentQ.options.map((option, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleSelectOption(option.tag)}
-                    className="text-left p-5 rounded-2xl bg-velvet-900/60 hover:bg-wine-900/40 border border-gold-500/15 hover:border-gold-400/50 transition-all duration-300 group flex flex-col justify-between"
-                  >
-                    <div>
-                      <div className="text-sm font-medium text-white group-hover:text-gold-200 transition-colors mb-1.5">
-                        {option.text}
-                      </div>
-                      <p className="text-xs text-neutral-400 font-light">
-                        {option.subtext}
-                      </p>
-                    </div>
-                    <div className="mt-3 flex items-center justify-end text-xs text-gold-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span>Velg dette →</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            /* Result Screen */
-            <div className="animate-fade-in space-y-6">
-              
-              {/* Badge */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-white/10">
-                <div className="inline-flex items-center gap-2 text-xs font-semibold text-gold-400 uppercase tracking-widest bg-wine-950/80 px-3 py-1 rounded-full border border-gold-500/20">
-                  <Wine className="w-3.5 h-3.5" />
-                  <span>Din Arketype: {recommendation.archetype}</span>
-                </div>
-                <button
-                  onClick={handleReset}
-                  className="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>Ta testen på nytt</span>
-                </button>
-              </div>
-
-              {/* Recommendation Title */}
+        {/* Selected Sommelier Dossier View */}
+        <div className="salon-card p-6 sm:p-12 editorial-border relative animate-fade-in">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <div className="lg:col-span-7 space-y-6">
               <div>
-                <span className="text-xs text-gold-300/80 uppercase tracking-wider block mb-1">
-                  Region: {recommendation.region}
+                <span className="text-[10px] font-editorial uppercase tracking-widest text-brass-400 block mb-1">
+                  Carolines Utvalgte Anbefaling for {current.name}
                 </span>
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white mb-2">
-                  {recommendation.wineTitle}
+                <h3 className="font-display text-3xl sm:text-4xl text-white uppercase tracking-wide">
+                  {current.wineTitle}
                 </h3>
-                <p className="text-sm text-neutral-300 font-light leading-relaxed">
-                  {recommendation.description}
+                <p className="font-editorial text-xs text-brass-300 uppercase tracking-widest mt-1">
+                  Region: {current.region}
                 </p>
               </div>
 
-              {/* Caroline's Quote */}
-              <div className="p-5 rounded-2xl bg-velvet-900/80 border-l-4 border-l-gold-400">
-                <p className="font-serif italic text-gold-100 text-sm sm:text-base leading-relaxed mb-2">
-                  "{recommendation.quoteByCaroline}"
+              <p className="font-serif text-base sm:text-lg text-neutral-300 font-light leading-relaxed">
+                {current.subtitle}
+              </p>
+
+              {/* Sommelier Quote */}
+              <div className="p-5 border-l-2 border-brass-400 bg-velvet-900/80">
+                <p className="font-serif italic text-brass-100 text-sm sm:text-base leading-relaxed mb-2">
+                  {current.curatorNote}
                 </p>
-                <span className="text-[11px] uppercase tracking-wider text-gold-400 font-medium block">
-                  — Caroline Skovholt, 66° Cuvée
+                <span className="text-[10px] font-editorial uppercase tracking-widest text-brass-400 block">
+                  — Caroline Skovholt, Leder for 66° Cuvée
                 </span>
               </div>
 
-              {/* Practical Details (Pairing & Bottle) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div className="p-4 rounded-xl bg-wine-950/60 border border-gold-500/15">
-                  <strong className="text-white block mb-1 uppercase tracking-wider text-[11px]">
-                    Ideell Matmatch:
-                  </strong>
-                  <span className="text-neutral-300">{recommendation.foodPairing}</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-neutral-300 pt-1">
+                <div className="p-3 border border-white/10 bg-velvet-900/40">
+                  <span className="font-editorial uppercase tracking-widest text-brass-400 block text-[10px] mb-1">
+                    Anbefalt Matfølge:
+                  </span>
+                  <p className="font-serif text-white">{current.pairing}</p>
                 </div>
-                <div className="p-4 rounded-xl bg-wine-950/60 border border-gold-500/15">
-                  <strong className="text-white block mb-1 uppercase tracking-wider text-[11px]">
-                    Konkret Flaskeanbefaling:
-                  </strong>
-                  <span className="text-gold-200 font-serif text-sm">{recommendation.recommendedBottle}</span>
+                <div className="p-3 border border-white/10 bg-velvet-900/40">
+                  <span className="font-editorial uppercase tracking-widest text-brass-400 block text-[10px] mb-1">
+                    Konkret Flaske i Kikkerten:
+                  </span>
+                  <p className="font-serif text-white">{current.bottle}</p>
                 </div>
               </div>
 
-              {/* Action */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3">
+              <div className="pt-2">
                 <button
                   onClick={onOpenApplyModal}
-                  className="px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-gold-300 to-gold-400 text-neutral-950 hover:from-gold-200 hover:to-gold-300 transition-all flex items-center justify-center gap-2 shadow-md"
+                  className="px-7 py-3.5 bg-brass-400 text-neutral-950 font-editorial text-xs uppercase tracking-widest hover:bg-brass-300 transition-all inline-flex items-center gap-2"
                 >
-                  <Sparkles className="w-4 h-4 text-wine-950" />
-                  <span>Søk medlemskap og smak med oss</span>
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="px-6 py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider text-neutral-300 border border-white/10 hover:border-white/30 transition-all text-center"
-                >
-                  Prøv andre svar
+                  <span>Søk plass i salongen og smak med oss</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-
             </div>
-          )}
 
+            {/* Right: Mood Visual Frame */}
+            <div className="lg:col-span-5 relative aspect-[3/4] overflow-hidden editorial-border">
+              <img
+                src={
+                  selectedElementId === 'fest'
+                    ? './images/champagne-pour.jpg'
+                    : selectedElementId === 'frost'
+                    ? './images/tasting-flight.jpg'
+                    : './images/wine-bottle.jpg'
+                }
+                alt="Stemningsbilde fra vinbaren"
+                className="w-full h-full object-cover filter contrast-[1.03] hover:scale-105 transition-transform duration-1000"
+              />
+              <div className="absolute bottom-4 left-4 right-4 p-3 bg-velvet-950/90 backdrop-blur-sm border border-brass-500/30 text-center">
+                <span className="text-[10px] font-editorial uppercase tracking-widest text-brass-300">
+                  {current.element} • 66° 18′ N • Mo i Rana
+                </span>
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Check, Crown, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { membershipTiers, MembershipTier } from '../data/membership';
 
 interface MembershipSectionProps {
@@ -7,117 +7,159 @@ interface MembershipSectionProps {
 }
 
 export const MembershipSection: React.FC<MembershipSectionProps> = ({ onSelectTier }) => {
+  const primaryTier = membershipTiers.find((t) => t.id === 'medlem') || membershipTiers[0];
+  const patronTier = membershipTiers.find((t) => t.id === 'ambassador') || membershipTiers[1];
+  const guestTier = membershipTiers.find((t) => t.id === 'gjest') || membershipTiers[2];
+
   return (
-    <section id="medlemskap" className="py-24 relative overflow-hidden">
+    <section id="medlemskap" className="py-28 relative editorial-border-t bg-velvet-950/95">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-400/20 bg-wine-950/70 text-gold-300 text-xs font-semibold uppercase tracking-widest mb-3">
-            <Crown className="w-3 h-3 text-gold-400" />
-            <span>Eksklusivitet & Fellesskap</span>
+        {/* Chapter Header */}
+        <div className="mb-16 editorial-border-b pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span className="text-[10px] font-editorial uppercase tracking-[0.35em] text-brass-400 block mb-1">
+              Kapittel V — Salongens Seter
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-display uppercase tracking-tight text-white">
+              Et Sete ved Bordet
+            </h2>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-            Bli en del av <span className="gold-gradient-text italic font-serif">66° Cuvée</span>
-          </h2>
-          <p className="text-neutral-300 text-base sm:text-lg font-light leading-relaxed">
-            For å bevare intimiteten og kvaliteten på flaskene vi åpner, har klubben et tak på 
-            <strong className="text-gold-300 font-normal"> maksimalt 35 faste medlemmer</strong>. 
-            Opptak skjer løpende etter søknad og interesse.
+          <p className="font-serif italic text-brass-200 text-sm sm:text-base max-w-sm">
+            For å bevare intimiteten og kvaliteten på flaskene vi trekker opp korken på, 
+            har salongen et strengt tak på 35 faste medlemmer.
           </p>
         </div>
 
-        {/* Tiers Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-16">
-          {membershipTiers.map((tier) => (
-            <div
-              key={tier.id}
-              className={`rounded-3xl p-7 sm:p-8 flex flex-col justify-between relative transition-all duration-300 ${
-                tier.popular
-                  ? 'bg-gradient-to-b from-wine-900/80 via-velvet-950 to-velvet-950 border-2 border-gold-400 shadow-2xl shadow-gold-500/10 lg:-translate-y-2'
-                  : 'glass-card border border-gold-500/20 hover:border-gold-400/40'
-              }`}
-            >
-              {/* Badge */}
-              {tier.badge && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-gradient-to-r from-gold-300 to-gold-500 text-neutral-950 shadow-md">
-                  {tier.badge}
-                </div>
-              )}
-
-              <div>
-                {/* Title & Subtitle */}
-                <h3 className="font-serif text-2xl font-bold text-white mb-2">
-                  {tier.name}
-                </h3>
-                <p className="text-xs text-neutral-300 font-light mb-6 min-h-[36px]">
-                  {tier.subtitle}
-                </p>
-
-                {/* Price Display */}
-                <div className="mb-6 pb-6 border-b border-white/10">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="font-serif text-4xl font-extrabold text-white">
-                      {tier.price}
-                    </span>
-                    <span className="text-xs text-neutral-400">
-                      {tier.period}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Core Features */}
-                <div className="space-y-3 mb-6">
-                  <span className="text-[11px] uppercase tracking-wider text-gold-400 font-semibold block">
-                    Inkluderte goder:
-                  </span>
-                  {tier.features.map((feature, i) => (
-                    <div key={i} className="text-xs text-neutral-200 flex items-start gap-2.5">
-                      <Check className="w-3.5 h-3.5 text-gold-400 mt-0.5 shrink-0" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Exclusive Perks */}
-                {tier.exclusivePerks.length > 0 && (
-                  <div className="pt-4 border-t border-white/5 space-y-2 mb-8">
-                    <span className="text-[11px] uppercase tracking-wider text-gold-300 font-semibold block flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-gold-400" />
-                      <span>Spesielle privilegier:</span>
-                    </span>
-                    {tier.exclusivePerks.map((perk, i) => (
-                      <div key={i} className="text-xs text-gold-100/90 italic font-serif flex items-start gap-2">
-                        <span className="text-gold-400">★</span>
-                        <span>{perk}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Action Button */}
-              <button
-                onClick={() => onSelectTier(tier)}
-                className={`w-full py-3.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
-                  tier.popular
-                    ? 'bg-gradient-to-r from-gold-300 to-gold-400 text-neutral-950 hover:from-gold-200 hover:to-gold-300 shadow-md hover:scale-[1.02]'
-                    : 'border border-gold-400/40 text-gold-200 hover:bg-wine-900/40 hover:border-gold-300'
-                }`}
-              >
-                <span>Velg {tier.name}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+        {/* Narrative Box on Exclusivity */}
+        <div className="salon-card p-6 sm:p-8 editorial-border mb-12 max-w-4xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="w-16 h-16 rounded-full border border-brass-400/40 p-1 shrink-0 overflow-hidden">
+              <img src="./images/logo-crest.jpg" alt="Emblem" className="w-full h-full object-cover rounded-full" />
             </div>
-          ))}
+            <div className="space-y-1 text-center md:text-left">
+              <h3 className="font-display text-xl sm:text-2xl text-white uppercase tracking-wide">
+                Hvorfor kun 35 medlemmer i Mo i Rana?
+              </h3>
+              <p className="font-serif text-neutral-300 text-sm font-light leading-relaxed">
+                Når en sjelden Grand Cru fra Burgund eller en eldre Barolo Riserva åpnes, finnes det ofte 
+                kun én eller to flasker tilgjengelig i hele landet. Ved å begrense medlemsmassen til 35 
+                personer og samles i grupper på 12–16, sikrer vi at hver enkelt gjest får et raust glass 
+                av kveldens ypperste dråper, og at samtalen rundt bordet forblir nær og levende.
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Reassurance Banner */}
-        <div className="max-w-2xl mx-auto p-5 rounded-2xl bg-velvet-900/60 border border-gold-500/20 text-center flex items-center justify-center gap-3 text-xs text-neutral-300">
-          <ShieldCheck className="w-5 h-5 text-gold-400 shrink-0" />
-          <span>
-            Ingen bindingstid utover avtalt halvår. Caroline tar personlig kontakt med alle søkere for en hyggelig vinprat før bekreftelse.
-          </span>
+        {/* Two-Column Asymmetrical Fellowship Cards (Not 3 SaaS pricing boxes!) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto mb-14">
+          
+          {/* Main: Det Faste Medlemskapet (7 cols) */}
+          <div className="lg:col-span-7 salon-card p-8 sm:p-10 editorial-border flex flex-col justify-between relative bg-gradient-to-b from-wine-950/60 to-velvet-950">
+            <div>
+              <div className="flex items-center justify-between pb-4 mb-6 border-b border-brass-500/20">
+                <span className="text-[10px] font-editorial uppercase tracking-widest text-brass-400">
+                  Hovedopptak • 35 Seter
+                </span>
+                <span className="font-serif text-xs text-neutral-400 italic">
+                  Sesong 2026/2027
+                </span>
+              </div>
+
+              <h3 className="font-display text-3xl text-white uppercase tracking-wide mb-2">
+                {primaryTier.name}
+              </h3>
+              <p className="font-serif text-sm text-neutral-300 font-light leading-relaxed mb-6">
+                {primaryTier.subtitle}
+              </p>
+
+              <div className="mb-6 pb-6 border-b border-white/5">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-display text-4xl text-white">
+                    {primaryTier.price}
+                  </span>
+                  <span className="font-serif text-xs text-neutral-400 italic">
+                    {primaryTier.period}
+                  </span>
+                </div>
+                <span className="text-[10px] font-editorial uppercase tracking-widest text-brass-400 block mt-1">
+                  Inkluderer fortrinnsrett og medlemspris på alle smakinger
+                </span>
+              </div>
+
+              <div className="space-y-3 mb-8">
+                <span className="text-[10px] font-editorial uppercase tracking-widest text-neutral-400 block">
+                  Salongistens Rettigheter:
+                </span>
+                {primaryTier.features.map((feature, i) => (
+                  <div key={i} className="flex items-start gap-3 font-serif text-sm text-neutral-200">
+                    <span className="text-brass-400 font-serif">†</span>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => onSelectTier(primaryTier)}
+              className="w-full py-4 bg-brass-400 text-neutral-950 font-editorial text-xs uppercase tracking-widest hover:bg-brass-300 transition-all flex items-center justify-center gap-2"
+            >
+              <span>Søk om fast medlemskap</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Secondary: Ambassadør & Gjesteliste (5 cols) */}
+          <div className="lg:col-span-5 space-y-6 flex flex-col justify-between">
+            
+            {/* Grand Cru Ambassadør */}
+            <div className="salon-card p-6 sm:p-7 editorial-border flex-1 flex flex-col justify-between">
+              <div>
+                <span className="text-[9px] font-editorial uppercase tracking-widest text-brass-400 block mb-1">
+                  Spesialallokering
+                </span>
+                <h4 className="font-display text-2xl text-white uppercase tracking-wide mb-1">
+                  {patronTier.name}
+                </h4>
+                <p className="font-serif text-xs text-neutral-400 leading-relaxed mb-4">
+                  For samleren som ønsker personlig konsultasjon, garanterte plasser på jubileumsmiddager og tilgang til Carolines private kjellerarkiv.
+                </p>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="font-display text-2xl text-white">{patronTier.price}</span>
+                  <span className="font-serif text-xs text-neutral-500 italic">{patronTier.period}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => onSelectTier(patronTier)}
+                className="w-full py-2.5 border border-brass-500/40 text-brass-300 hover:text-white hover:border-brass-400 font-editorial text-[11px] uppercase tracking-widest transition-colors"
+              >
+                Utforsk Ambassadørplass
+              </button>
+            </div>
+
+            {/* Gjestelisten */}
+            <div className="p-6 border border-white/10 bg-velvet-900/40 space-y-3">
+              <span className="text-[9px] font-editorial uppercase tracking-widest text-neutral-400 block">
+                Uforpliktende
+              </span>
+              <h4 className="font-display text-xl text-white uppercase tracking-wide">
+                {guestTier.name}
+              </h4>
+              <p className="font-serif text-xs text-neutral-300 font-light leading-relaxed">
+                Ønsker du å delta på en enkeltstående smaking før du binder deg? Før deg opp på gjestelisten for restplasser og åpne introduksjonskvelder.
+              </p>
+              <button
+                onClick={() => onSelectTier(guestTier)}
+                className="text-xs font-editorial uppercase tracking-widest text-brass-400 hover:text-white border-b border-brass-500/30 pb-0.5 inline-flex items-center gap-1.5"
+              >
+                <span>Sett deg på gjestelisten</span>
+                <span>→</span>
+              </button>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
