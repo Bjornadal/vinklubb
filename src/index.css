@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0c0c0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a1523;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6a1a36;
+}
+
+/* Luxury gold text gradients */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #f8f2df 0%, #dfbf76 50%, #c59b38 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-subtle {
+  background: linear-gradient(135deg, #fdfbf4 0%, #eedcae 60%, #a77a29 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.wine-gradient-bg {
+  background: radial-gradient(circle at 50% 0%, rgba(130, 28, 55, 0.25) 0%, rgba(12, 12, 15, 0.95) 75%);
+}
+
+.gold-border-glow {
+  box-shadow: 0 0 25px -5px rgba(215, 176, 90, 0.15);
+}
+
+.glass-card {
+  background: rgba(22, 14, 20, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(215, 176, 90, 0.18);
+}
+
+.glass-card-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(215, 176, 90, 0.4);
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.6), 0 0 20px -3px rgba(184, 41, 80, 0.25);
+}
+
+/* Atmospheric vignette */
+.vignette-overlay {
+  box-shadow: inset 0 0 120px rgba(12, 12, 15, 0.85);
+}
